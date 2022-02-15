@@ -30,4 +30,15 @@ class UserData {
     credit = json['credit'];
     token = json['token'];
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'image': image,
+        'points': points,
+        'credit': credit,
+        'token': token,
+      };
 }

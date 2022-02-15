@@ -4,7 +4,7 @@ class DioHelper {
   static Dio? dio;
 
   static init() {
-    dio =Dio(
+    dio = Dio(
       BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
