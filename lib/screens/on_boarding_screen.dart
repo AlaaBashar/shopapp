@@ -15,6 +15,7 @@ class OnBoardingItem {
 }
 
 class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
@@ -45,10 +46,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         actions: [
           TextButton(
-            onPressed: () => openNewPage(context, const LoginScreen(),popPreviousPages: true),
+            onPressed:submit,
             child: const Text('SKIP',style: TextStyle(color: Colors.indigo),),
           ),
         ],
@@ -99,7 +99,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           duration: const Duration(milliseconds: 700),
                           curve: Curves.fastLinearToSlowEaseIn);
                     } else {
-                      openNewPage(context, const LoginScreen(),popPreviousPages: true);
+                      submit();
                     }
                   },
                   child: const Icon(Icons.arrow_forward_outlined),
@@ -109,6 +109,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void submit() {
+    CacheHelper.saveData(
+      key: 'onBoarding',
+      value: true,
+    ).then(
+      (value) {
+        bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
+        debugPrint('$onBoarding');
+
+
+        if (value) {
+          openNewPage(context, const LoginScreen(), popPreviousPages: true);
+        }
+      },
+    ).catchError(
+      (error) {
+        debugPrint('error is : ${error.toString()}');
+      },
     );
   }
 

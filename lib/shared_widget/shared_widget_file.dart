@@ -12,7 +12,6 @@ class DefaultButtonWidget extends StatelessWidget {
   const DefaultButtonWidget({
     Key? key,
     required this.text,
-
     this.height,
     this.color,
     required this.onPressed,
@@ -34,8 +33,8 @@ class DefaultButtonWidget extends StatelessWidget {
         textColor: textColor ?? Colors.white,
         child: Text(
           text!,
-          style:  TextStyle(
-            fontSize:fontSize??25.0,
+          style: TextStyle(
+            fontSize: fontSize ?? 25.0,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -53,6 +52,9 @@ class DefaultTextFieldWidget extends StatelessWidget {
   final Icon? icon;
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
+  final bool? isSuffixShow;
+  final VoidCallback? suffixOnPressed;
+  final IconData? suffixIcon;
 
   const DefaultTextFieldWidget({
     Key? key,
@@ -63,6 +65,9 @@ class DefaultTextFieldWidget extends StatelessWidget {
     this.icon,
     this.height,
     this.horizontalPadding,
+    this.isSuffixShow,
+    this.suffixOnPressed,
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
@@ -89,12 +94,19 @@ class DefaultTextFieldWidget extends StatelessWidget {
         ),
         child: TextFormField(
             controller: controller,
-            obscureText: isObscure != null ? true : false,
+            obscureText: isObscure ?? false,
             decoration: InputDecoration(
-                icon: icon,
-                hintText: hintText,
-                border: InputBorder.none,
-                enabled: true
+              icon: icon,
+              hintText: hintText,
+              border: InputBorder.none,
+              enabled: true,
+              suffixIcon: isSuffixShow != false
+                  ? IconButton(
+                      icon: Icon(suffixIcon!),
+                      splashColor: Colors.transparent,
+                      onPressed: suffixOnPressed,
+                    )
+                  : null,
             ),
             validator: validator),
       ),

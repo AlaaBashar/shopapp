@@ -155,6 +155,21 @@ class ShowToast {
 
 }
 
+void showToast(
+   {required String text,
+  required Color textColor,
+  required Color backgroundColor,
+}) {
+  Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      fontSize: 16.0);
+}
+
 class MyBlocObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {

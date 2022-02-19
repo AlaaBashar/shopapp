@@ -19,24 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ApiBloc,ApiStates>(
-      listener: (context, state) {
-        if(state is LoginSuccessState){
-          print('LoginSuccessState ----------------------------------------');
-          print(state.loginModel.data!.toJson().toString());
-          print(state.loginModel.data!.email);
-          print(state.loginModel.data!.credit);
-          print(state.loginModel.data!.id);
-          print(state.loginModel.data!.name);
-          print(state.loginModel.data!.token);
-        }
-        if(state is ErrorState){
-          print('ErrorState ----------------------------------------');
-          print(state.message.toString());
-        }
-      },
+    var apiBloc = LoginBloc.get(context);
+    return BlocConsumer<LoginBloc, LoginStates>(
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           body: Form(
@@ -47,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   const Text(
                     'LOGIN',
                     style:
@@ -64,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 25.0,
                   ),
                   DefaultTextFieldWidget(
+                    isSuffixShow: false,
                     controller: emailController,
                     hintText: 'Email Address',
                     icon: const Icon(Icons.email),
@@ -79,6 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 25.0,
                   ),
                   DefaultTextFieldWidget(
+                    suffixIcon: apiBloc.suffixIcon,
+                    suffixOnPressed: suffixOnPressed,
+                    isSuffixShow: true,
+                    isObscure: apiBloc.isVisible,
                     height: 60.0,
                     controller: passwordController,
                     hintText: 'Password',
@@ -123,16 +115,22 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void suffixOnPressed() {
+    LoginBloc.get(context).add(PasswordVisibilityEvent());
+  }
+
   void onLogin() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     FocusManager.instance.primaryFocus?.unfocus();
-    ApiBloc.get(context).add(LoginEvent(
+    LoginBloc.get(context).add(
+      LoginEvent(
         context: context,
         path: 'login',
         email: emailController.text.trim(),
-        password: passwordController.text.trim()));
-
+        password: passwordController.text.trim(),
+      ),
+    );
   }
 }
