@@ -9,6 +9,7 @@ abstract class HomeEvents extends Equatable {
 
 class HomeChangeCurrentNveBottomEvent extends HomeEvents {
   final int? index;
+
   HomeChangeCurrentNveBottomEvent({this.index});
 }
 
@@ -16,5 +17,21 @@ class HomeGetDataEvent extends HomeEvents {
   final BuildContext context;
 
   HomeGetDataEvent({required this.context});
-
 }
+
+class HomeGetCategoriesDataEvent extends HomeEvents {
+  final BuildContext context;
+
+  HomeGetCategoriesDataEvent({required this.context});
+}
+
+class HomeChangeFavoritesDataEvent extends HomeEvents {
+  final int? id;
+
+  HomeChangeFavoritesDataEvent({
+    this.id,
+  });
+}
+
+class HomeGetFavoritesDataEvent extends HomeEvents {}
+class HomeGetProfileDataEvent extends HomeEvents {}

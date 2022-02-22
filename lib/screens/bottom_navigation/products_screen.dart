@@ -14,19 +14,24 @@ class ProductsScreen extends StatelessWidget {
       builder: (context, state) {
         var homeBloc = HomeBloc.get(context);
         return ConditionalBuilder(
-          condition: homeBloc.homeModel != null,
+          condition:
+              homeBloc.homeModel != null && homeBloc.categoriesModel != null,
           fallback: (context) => const Center(
             child: CircularProgressIndicator(),
           ),
-          builder: (context) => productsBuilder(homeBloc.homeModel),
+          builder: (context) =>
+              productsBuilder(homeBloc.homeModel, homeBloc.categoriesModel,context),
         );
       },
     );
   }
 
-  Widget productsBuilder(HomeModel? homeModel) => SingleChildScrollView(
+  Widget productsBuilder(
+          HomeModel? homeModel, CategoriesModel? categoriesModel,BuildContext? context) =>
+      SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselSlider(
               items: homeModel!.data!.banners!
@@ -53,6 +58,51 @@ class ProductsScreen extends StatelessWidget {
             const SizedBox(
               height: 10.0,
             ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Categories',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24.0,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  SizedBox(
+                    height: 100,
+                    child: ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => buildCategoriesItem(
+                          categoriesModel!.data!.data![index]),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        width: 10.0,
+                      ),
+                      itemCount: categoriesModel!.data!.data!.length,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  const Text(
+                    'New Products ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
             Container(
               color: Colors.grey[300],
               child: GridView.count(
@@ -64,8 +114,8 @@ class ProductsScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: List.generate(
                   homeModel.data!.products!.length,
-                  (index) => buildGridProducts(
-                    homeModel.data!.products![index],
+                  (index) => buildGridProducts(homeModel.data!.products![index],context
+
                   ),
                 ),
               ),
@@ -74,7 +124,38 @@ class ProductsScreen extends StatelessWidget {
         ),
       );
 
-  Widget buildGridProducts(ProductsModel? model) => Container(
+  Widget buildCategoriesItem(DataModel? model) => SizedBox(
+        height: 100,
+        width: 100,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Image(
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+              image: NetworkImage(
+                model!.image!,
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              color: Colors.black.withOpacity(0.7),
+              child: Text(
+                model.name!,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget buildGridProducts(ProductsModel? model,BuildContext? context) => Container(
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,17 +171,17 @@ class ProductsScreen extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
                 if (model.discount != 0)
-                Container(
-                  color: Colors.red,
-                  padding: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Text(
-                    'DISCOUNT',
-                    style: TextStyle(
-                      fontSize: 10.0,
-                      color: Colors.white,
+                  Container(
+                    color: Colors.red,
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: const Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             Padding(
@@ -138,11 +219,22 @@ class ProductsScreen extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                      const Spacer(flex: 1,),
+                      const Spacer(
+                        flex: 1,
+                      ),
                       IconButton(
-                        iconSize: 15.0,
-                        onPressed: () {},
-                        icon: const Icon(Icons.favorite_border),
+                        onPressed: () {
+                          HomeBloc.get(context).add(HomeChangeFavoritesDataEvent(id:model.id));
+                        },
+                        icon:CircleAvatar(
+                          radius: 15.0,
+                          backgroundColor: HomeBloc.get(context).favorites![model.id] == false ? Colors.grey: Colors.red,
+                          child:const Icon(
+                            Icons.favorite_border,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                        ),
                       ),
                     ],
                   ),

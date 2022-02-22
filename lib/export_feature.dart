@@ -19,6 +19,10 @@ export 'shared_widget/shared_widget_file.dart';
 ///MODELS
 export 'models/user_model/user_model.dart';
 export 'models/home_model/home_model.dart';
+export 'models/categories_model/categories_model.dart';
+export 'models/favorites_model/favorites_model.dart';
+export 'models/favorites_change_model/favorites_change_model.dart';
+
 
 ///CONSTANT
 export 'constant_file.dart';

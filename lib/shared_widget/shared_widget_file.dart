@@ -45,7 +45,7 @@ class DefaultButtonWidget extends StatelessWidget {
 }
 
 class DefaultTextFieldWidget extends StatelessWidget {
-  final String? hintText;
+  final String? hintText ;
   final double? height;
   final double? horizontalPadding;
   final bool? isObscure;
@@ -58,7 +58,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
 
   const DefaultTextFieldWidget({
     Key? key,
-    required this.hintText,
+     this.hintText,
     required this.controller,
     this.isObscure,
     required this.validator,
@@ -100,6 +100,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
               hintText: hintText,
               border: InputBorder.none,
               enabled: true,
+
               suffixIcon: isSuffixShow != false
                   ? IconButton(
                       icon: Icon(suffixIcon!),

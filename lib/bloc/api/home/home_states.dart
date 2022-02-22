@@ -65,3 +65,84 @@ class HomeSuccessDataState extends HomeStates {
   @override
   List<Object?> get props => [homeModel];
 }
+
+class HomeSuccessCategoriesState extends HomeStates {}
+
+class HomeErrorCategoriesState extends HomeStates {
+  final String? error;
+
+  HomeErrorCategoriesState({this.error});
+}
+
+class HomeSuccessFavoritesState extends HomeStates {
+  ChangeFavoritesModel? changeFavoritesModel;
+  Map<int, bool>? favorites;
+
+  HomeSuccessFavoritesState({
+    this.changeFavoritesModel,
+    this.favorites,
+  });
+
+  HomeSuccessFavoritesState copyWith(
+      {ChangeFavoritesModel? changeFavoritesModel, Map<int, bool>? favorites}) {
+    {
+      return HomeSuccessFavoritesState(
+          changeFavoritesModel:
+              changeFavoritesModel ?? this.changeFavoritesModel,
+          favorites: favorites ?? this.favorites);
+    }
+  }
+
+  @override
+  List<Object?> get props => [changeFavoritesModel, favorites];
+}
+
+class HomeChangeFavoritesState extends HomeStates {
+  ChangeFavoritesModel? changeFavoritesModel;
+  Map<int, bool>? favorites;
+
+  HomeChangeFavoritesState({
+    this.changeFavoritesModel,
+    this.favorites,
+  });
+
+  HomeSuccessFavoritesState copyWith(
+      {ChangeFavoritesModel? changeFavoritesModel, Map<int, bool>? favorites}) {
+    {
+      return HomeSuccessFavoritesState(
+          changeFavoritesModel:
+              changeFavoritesModel ?? this.changeFavoritesModel,
+          favorites: favorites ?? this.favorites);
+    }
+  }
+
+  @override
+  List<Object?> get props => [changeFavoritesModel, favorites];
+}
+
+class HomeErrorFavoritesState extends HomeStates {
+  final String? error;
+
+  HomeErrorFavoritesState({this.error});
+}
+
+class HomeGetFavoritesItemState extends HomeStates {}
+
+class HomeLoadingFavoritesItemState extends HomeStates {}
+
+
+class HomeErrorFavoritesItemState extends HomeStates {
+  final String? error;
+
+  HomeErrorFavoritesItemState({this.error});
+}
+
+class HomeSuccessGetProfileState extends HomeStates {}
+class HomeErrorGetProfileState extends HomeStates {
+
+  final String? error;
+
+  HomeErrorGetProfileState({this.error});
+
+}
+
