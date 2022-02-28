@@ -75,6 +75,7 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   void _changeFavorites(HomeChangeFavoritesDataEvent? event, Emitter<HomeStates> emit) async {
     Response response;
     favorites![event!.id!] = !favorites![event.id!]!;
+
     emit(HomeChangeFavoritesState());
     try {
       response = await DioHelper.postData(
@@ -90,11 +91,11 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
       } else {
         add(HomeGetFavorItemsDataEvent());
       }
-      // showToast(
-      //   text: '${changeFavoritesModel!.message}',
-      //   textColor: Colors.white,
-      //   backgroundColor: Colors.greenAccent,
-      // );
+      showToast(
+        text: '${changeFavoritesModel!.message}',
+        textColor: Colors.white,
+        backgroundColor: Colors.greenAccent,
+      );
       emit(HomeSuccessFavoritesState().copyWith(changeFavoritesModel: changeFavoritesModel));
     } catch (error) {
       if (!changeFavoritesModel!.status!) {
@@ -116,7 +117,7 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
         token: token,
       );
       favoritesModel = FavoritesModel.fromJson(response.data);
-      emit(HomeGetFavoritesItemState());
+      emit(HomeGetFavoritesItemState().copyWith(favoritesModel: favoritesModel));
     } catch (error) {
       emit(HomeErrorFavoritesItemState(error: error.toString()));
     }

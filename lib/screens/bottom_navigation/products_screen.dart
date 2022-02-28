@@ -15,10 +15,7 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
-    HomeBloc.get(context).add(HomeGetDataEvent(context: context));
-    HomeBloc.get(context).add(HomeGetCategoriesDataEvent(context: context));
-    HomeBloc.get(context).add(HomeGetFavorItemsDataEvent());
-    HomeBloc.get(context).add(HomeGetProfileDataEvent());
+
     // TODO: implement initState
     super.initState();
   }

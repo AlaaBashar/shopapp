@@ -2,11 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../export_feature.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    HomeBloc.get(context).add(HomeGetDataEvent(context: context));
+    HomeBloc.get(context).add(HomeGetCategoriesDataEvent(context: context));
+    HomeBloc.get(context).add(HomeGetFavorItemsDataEvent());
+    HomeBloc.get(context).add(HomeGetProfileDataEvent());
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeStates>(

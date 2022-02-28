@@ -43,26 +43,21 @@ class HomeDataErrorState extends HomeStates {
   HomeDataErrorState({this.error});
 }
 
-class HomeLoadingDataState extends HomeStates {}
 
 class HomeSuccessDataState extends HomeStates {
   HomeModel? homeModel;
   Map<int, bool>? favorites;
 
-  HomeSuccessDataState({
-    this.homeModel,
-    this.favorites
-  });
+  HomeSuccessDataState({this.homeModel, this.favorites});
 
   HomeSuccessDataState copyWith({
     HomeModel? homeModel,
     Map<int, bool>? favorites,
-
   }) {
     {
       return HomeSuccessDataState(
         homeModel: homeModel ?? this.homeModel,
-        favorites: favorites ??this.favorites,
+        favorites: favorites ?? this.favorites,
       );
     }
   }
@@ -131,10 +126,28 @@ class HomeErrorFavoritesState extends HomeStates {
   HomeErrorFavoritesState({this.error});
 }
 
-class HomeGetFavoritesItemState extends HomeStates {}
+class HomeGetFavoritesItemState extends HomeStates {
+  FavoritesModel? favoritesModel;
+
+  HomeGetFavoritesItemState({
+    this.favoritesModel,
+  });
+
+  HomeGetFavoritesItemState copyWith({
+    FavoritesModel? favoritesModel,
+  }) {
+    {
+      return HomeGetFavoritesItemState(
+        favoritesModel: favoritesModel ?? this.favoritesModel,
+      );
+    }
+  }
+
+  @override
+  List<Object?> get props => [favoritesModel];
+}
 
 class HomeLoadingFavoritesItemState extends HomeStates {}
-
 
 class HomeErrorFavoritesItemState extends HomeStates {
   final String? error;
@@ -143,11 +156,12 @@ class HomeErrorFavoritesItemState extends HomeStates {
 }
 
 class HomeSuccessGetProfileState extends HomeStates {}
-class HomeErrorGetProfileState extends HomeStates {
 
+class HomeErrorGetProfileState extends HomeStates {
   final String? error;
 
   HomeErrorGetProfileState({this.error});
-
 }
+
+class HomeLoadingGetFavoritesState extends HomeStates {}
 
