@@ -51,7 +51,7 @@ class FavoritesData {
   FavoritesData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     product =
-        json['product'] != null ? Product.fromJson(json['product']) : null;
+    json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 }
 

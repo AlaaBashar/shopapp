@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +12,11 @@ class FavoritesScreen extends StatelessWidget {
     return  BlocConsumer<HomeBloc, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) => ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          separatorBuilder: (context, index) => const Divider(),
-          itemCount: HomeBloc.get(context).favoritesModel!.data!.data!.length,
-          itemBuilder: (context, index) => buildFavItem(HomeBloc.get(context).favoritesModel!.data!.data![index],context),
-        ),
+        physics: const BouncingScrollPhysics(),
+        separatorBuilder: (context, index) => const Divider(),
+        itemCount: HomeBloc.get(context).favoritesModel!.data!.data!.length,
+        itemBuilder: (context, index) => buildFavItem(HomeBloc.get(context).favoritesModel!.data!.data![index],context),
+      ),
 
     );
   }
@@ -32,12 +33,12 @@ class FavoritesScreen extends StatelessWidget {
           Stack(
             alignment: AlignmentDirectional.bottomStart,
             children: [
-               Image(
-                image: NetworkImage(model.product!.image! ),
-                width: 120,
-                height: 120.0,
-                fit: BoxFit.fill,
-              ),
+                  CachedNetworkImage(
+                    imageUrl: model.product!.image!,
+                    width: 120,
+                    height: 120.0,
+                    fit: BoxFit.fill,
+                  ),
               if (model.product!.discount != 0)
                 Container(
                   color: Colors.red,
@@ -57,7 +58,7 @@ class FavoritesScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text(model.product!.name!,
+                Text(model.product!.name!,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style:  const TextStyle(
@@ -69,8 +70,8 @@ class FavoritesScreen extends StatelessWidget {
                 Row(
 
                   children: [
-                     Text(
-                       model.product!.price.toString(),
+                    Text(
+                      model.product!.price.toString(),
                       style:  const TextStyle(
                         fontSize: 12.0,
                         color: Colors.blue,
@@ -80,8 +81,8 @@ class FavoritesScreen extends StatelessWidget {
                       width: 5.0,
                     ),
                     if (model.product!.discount != 0)
-                       Text(
-                         model.product!.oldPrice.toString(),
+                      Text(
+                        model.product!.oldPrice.toString(),
                         style:  const TextStyle(
                           decoration: TextDecoration.lineThrough,
                           fontSize: 10.0,

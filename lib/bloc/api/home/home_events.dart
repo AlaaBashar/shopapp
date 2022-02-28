@@ -14,9 +14,9 @@ class HomeChangeCurrentNveBottomEvent extends HomeEvents {
 }
 
 class HomeGetDataEvent extends HomeEvents {
-  final BuildContext context;
+  final BuildContext? context;
 
-  HomeGetDataEvent({required this.context});
+  HomeGetDataEvent({this.context});
 }
 
 class HomeGetCategoriesDataEvent extends HomeEvents {
@@ -33,5 +33,6 @@ class HomeChangeFavoritesDataEvent extends HomeEvents {
   });
 }
 
-class HomeGetFavoritesDataEvent extends HomeEvents {}
+class HomeGetFavorItemsDataEvent extends HomeEvents {}
+
 class HomeGetProfileDataEvent extends HomeEvents {}

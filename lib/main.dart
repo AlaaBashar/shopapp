@@ -8,13 +8,16 @@ void main() async {
   await CacheHelper.init();
 
   bool onBoarding = CacheHelper.getData(key: 'onBoarding') ?? false;
-  token = CacheHelper.getData(key: 'loginSuccess') ?? '';
+  token = await CacheHelper.getData(key: 'token');
+  print('Token-----------------------------------------------');
+  print(token);
+  print('Token-----------------------------------------------');
   Widget? widget;
   if (onBoarding) {
-    if (token.isEmpty) {
-      widget = const LoginScreen();
-    } else {
+    if (token != null) {
       widget = const HomeScreen();
+    } else {
+      widget = const LoginScreen();
     }
   } else {
     widget = const OnBoardingScreen();
@@ -46,11 +49,7 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginBloc(InitialLoginState()),
         ),
         BlocProvider<HomeBloc>(
-          create: (context) => HomeBloc(InitialHomeState())
-            ..add(HomeGetDataEvent(context: context))
-            ..add(HomeGetCategoriesDataEvent(context: context))
-            ..add(HomeGetFavoritesDataEvent())
-            ..add(HomeGetProfileDataEvent()),
+          create: (context) => HomeBloc(InitialHomeState()),
         ),
       ],
       child: MaterialApp(

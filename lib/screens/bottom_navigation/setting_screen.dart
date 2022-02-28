@@ -74,7 +74,7 @@ class SettingScreen extends StatelessWidget {
   }
   void onLogOut(BuildContext context){
     FocusManager.instance.primaryFocus?.unfocus();
-    CacheHelper.removeData(key: 'loginSuccess').then((value) {
+    CacheHelper.removeData(key: 'token').then((value) {
       if(value){
         openNewPage(context, const LoginScreen(),popPreviousPages: true);
       }

@@ -39,6 +39,7 @@ dependencies:
   copy_with_extension_gen: ^4.0.1
   conditional_builder_null_safety: ^0.0.6
   carousel_slider: ^4.0.0
+  cached_network_image: ^3.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

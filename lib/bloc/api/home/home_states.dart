@@ -47,17 +47,22 @@ class HomeLoadingDataState extends HomeStates {}
 
 class HomeSuccessDataState extends HomeStates {
   HomeModel? homeModel;
+  Map<int, bool>? favorites;
 
   HomeSuccessDataState({
     this.homeModel,
+    this.favorites
   });
 
   HomeSuccessDataState copyWith({
     HomeModel? homeModel,
+    Map<int, bool>? favorites,
+
   }) {
     {
       return HomeSuccessDataState(
         homeModel: homeModel ?? this.homeModel,
+        favorites: favorites ??this.favorites,
       );
     }
   }

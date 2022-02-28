@@ -24,7 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var apiBloc = LoginBloc.get(context);
     return BlocConsumer<LoginBloc, LoginStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is LoginSuccessState){
+          print('--LoginSuccessState----------------------------------------------------');
+          CacheHelper.saveData(key: 'token', value: state.loginModel!.data!.token).then((value) {
+            setState(() {
+              token = state.loginModel!.data!.token.toString();
+            });
+            openNewPage(context, const HomeScreen(),popPreviousPages: true);
+          });
+
+        }
+
+
+      },
       builder: (context, state) {
         return Scaffold(
           body: Form(
@@ -123,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    HomeBloc.get(context).add(HomeGetDataEvent());
     FocusManager.instance.primaryFocus?.unfocus();
     LoginBloc.get(context).add(
       LoginEvent(

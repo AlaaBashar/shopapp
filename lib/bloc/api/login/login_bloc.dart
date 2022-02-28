@@ -28,14 +28,11 @@ class LoginBloc extends Bloc<LoginEvents, LoginStates> {
       loginModel = UserModel.fromJson(response.data);
       ProgressCircleDialog.dismiss(event.context);
       if (loginModel.status == true) {
-        debugPrint(loginModel.data!.toJson().toString());
         showToast(
           text: '${loginModel.message}',
           textColor: Colors.white,
           backgroundColor: Colors.greenAccent,
         );
-        CacheHelper.saveData(key: 'loginSuccess', value: loginModel.data!.token);
-        openNewPage(event.context, const HomeScreen(),popPreviousPages: true);
         emit(LoginSuccessState().copyWith(loginModel: loginModel,),);
       } else {
         showToast(

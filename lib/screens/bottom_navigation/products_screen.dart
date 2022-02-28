@@ -1,11 +1,27 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../export_feature.dart';
 
-class ProductsScreen extends StatelessWidget {
+class ProductsScreen extends StatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProductsScreen> createState() => _ProductsScreenState();
+}
+
+class _ProductsScreenState extends State<ProductsScreen> {
+  @override
+  void initState() {
+    HomeBloc.get(context).add(HomeGetDataEvent(context: context));
+    HomeBloc.get(context).add(HomeGetCategoriesDataEvent(context: context));
+    HomeBloc.get(context).add(HomeGetFavorItemsDataEvent());
+    HomeBloc.get(context).add(HomeGetProfileDataEvent());
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +31,7 @@ class ProductsScreen extends StatelessWidget {
         var homeBloc = HomeBloc.get(context);
         return ConditionalBuilder(
           condition:
-              homeBloc.homeModel != null && homeBloc.categoriesModel != null,
+          homeBloc.homeModel != null && homeBloc.categoriesModel != null,
           fallback: (context) => const Center(
             child: CircularProgressIndicator(),
           ),
@@ -27,7 +43,7 @@ class ProductsScreen extends StatelessWidget {
   }
 
   Widget productsBuilder(
-          HomeModel? homeModel, CategoriesModel? categoriesModel,BuildContext? context) =>
+      HomeModel? homeModel, CategoriesModel? categoriesModel,BuildContext? context) =>
       SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -36,13 +52,13 @@ class ProductsScreen extends StatelessWidget {
             CarouselSlider(
               items: homeModel!.data!.banners!
                   .map(
-                    (e) => Image(
-                      image: NetworkImage(e.image!),
-                      width: double.infinity,
+                    (e) => CachedNetworkImage(
+                        imageUrl: '${e.image}',
+                        width: double.infinity,
                       fit: BoxFit.fill,
                     ),
-                  )
-                  .toList(),
+                  ).toList(),
+
               options: CarouselOptions(
                 autoPlay: true,
                 height: 250,
@@ -114,7 +130,7 @@ class ProductsScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: List.generate(
                   homeModel.data!.products!.length,
-                  (index) => buildGridProducts(homeModel.data!.products![index],context
+                      (index) => buildGridProducts(homeModel.data!.products![index],context
 
                   ),
                 ),
@@ -125,123 +141,121 @@ class ProductsScreen extends StatelessWidget {
       );
 
   Widget buildCategoriesItem(DataModel? model) => SizedBox(
-        height: 100,
-        width: 100,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Image(
+    height: 100,
+    width: 100,
+    child: Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+            CachedNetworkImage(
+              imageUrl: model!.image!,
               height: 100,
               width: 100,
               fit: BoxFit.cover,
-              image: NetworkImage(
-                model!.image!,
-              ),
             ),
-            Container(
-              width: double.infinity,
-              color: Colors.black.withOpacity(0.7),
-              child: Text(
-                model.name!,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+        Container(
+          width: double.infinity,
+          color: Colors.black.withOpacity(0.7),
+          child: Text(
+            model.name!,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.white,
             ),
-          ],
+          ),
         ),
-      );
+      ],
+    ),
+  );
 
   Widget buildGridProducts(ProductsModel? model,BuildContext? context) => Container(
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    color: Colors.white,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.bottomStart,
           children: [
-            Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: [
-                Image(
-                  image: NetworkImage(model!.image!),
-                  width: double.infinity,
-                  height: 200.0,
-                  fit: BoxFit.fill,
-                ),
-                if (model.discount != 0)
-                  Container(
-                    color: Colors.red,
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: const Text(
-                      'DISCOUNT',
-                      style: TextStyle(
-                        fontSize: 10.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-              ],
+            CachedNetworkImage(
+              imageUrl: model!.image!,
+              height: 200.0,
+              width: double.infinity,
+              fit: BoxFit.fill,
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            if (model.discount != 0)
+              Container(
+                color: Colors.red,
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: const Text(
+                  'DISCOUNT',
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                model.name!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  height: 1.3,
+                ),
+              ),
+              Row(
                 children: [
                   Text(
-                    model.name!,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    '${model.price.round()}',
                     style: const TextStyle(
-                      fontSize: 14.0,
-                      height: 1.3,
+                      fontSize: 12.0,
+                      color: Colors.blue,
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        '${model.price.round()}',
-                        style: const TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.blue,
-                        ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  if (model.discount != 0)
+                    Text(
+                      '${model.oldPrice.round()}',
+                      style: const TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                        fontSize: 10.0,
+                        color: Colors.grey,
                       ),
-                      const SizedBox(
-                        width: 5.0,
+                    ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      HomeBloc.get(context).add(HomeChangeFavoritesDataEvent(id:model.id));
+                    },
+                    icon:CircleAvatar(
+                      radius: 15.0,
+                      backgroundColor: HomeBloc.get(context).favorites![model.id] == false ? Colors.grey: Colors.red,
+                      child:const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 14,
                       ),
-                      if (model.discount != 0)
-                        Text(
-                          '${model.oldPrice.round()}',
-                          style: const TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 10.0,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          HomeBloc.get(context).add(HomeChangeFavoritesDataEvent(id:model.id));
-                        },
-                        icon:CircleAvatar(
-                          radius: 15.0,
-                          backgroundColor: HomeBloc.get(context).favorites![model.id] == false ? Colors.grey: Colors.red,
-                          child:const Icon(
-                            Icons.favorite_border,
-                            color: Colors.white,
-                            size: 14,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      );
+      ],
+    ),
+  );
 }

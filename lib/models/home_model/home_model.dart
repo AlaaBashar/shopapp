@@ -33,12 +33,6 @@ class BannerModel {
     id = json['id'];
     image = json['image'];
   }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['image'] = image;
-    return data;
-  }
 }
 
 class ProductsModel {
@@ -51,15 +45,8 @@ class ProductsModel {
   bool? inFavorite;
   bool? inCart;
 
-  ProductsModel(
-      {this.id,
-      this.price,
-      this.oldPrice,
-      this.discount,
-      this.image,
-      this.name,
-      this.inFavorite,
-      this.inCart});
+
+
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -68,7 +55,7 @@ class ProductsModel {
     discount = json['discount'];
     image = json['image'];
     name = json['name'];
-    inFavorite = json['in_favorites'];
+    inFavorite = json['in_favorites'] ?? false;
     inCart = json['in_cart'];
   }
 
