@@ -1,20 +1,18 @@
-import 'package:shopapp/export_feature.dart';
-
-class FavoritesModel {
+class SearchModel {
   bool? status;
   String? message;
-  Data? data;
+  SearchData? data;
 
-  FavoritesModel.fromJson(Map<String, dynamic> json) {
+  SearchModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? SearchData.fromJson(json['data']) : null;
   }
 }
 
-class Data {
+class SearchData {
   int? currentPage;
-  List<FavoritesData>? data = <FavoritesData>[];
+  List<SearchProduct>? data = <SearchProduct>[];
   String? firstPageUrl;
   int? from;
   int? lastPage;
@@ -26,11 +24,11 @@ class Data {
   int? to;
   int? total;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  SearchData.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
       json['data'].forEach((element) {
-        data!.add(FavoritesData.fromJson(element));
+        data!.add(SearchProduct.fromJson(element));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -46,18 +44,8 @@ class Data {
   }
 }
 
-class FavoritesData {
-  int? id;
-  Product? product;
 
-  FavoritesData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    product =
-    json['product'] != null ? Product.fromJson(json['product']) : null;
-  }
-}
-
-class Product {
+class SearchProduct {
   int? id;
   dynamic price;
   dynamic oldPrice;
@@ -66,7 +54,7 @@ class Product {
   String? name;
   String? description;
 
-  Product.fromJson(Map<String, dynamic> json) {
+  SearchProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
     oldPrice = json['old_price'];

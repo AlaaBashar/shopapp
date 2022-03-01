@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../export_feature.dart';
 
 class DefaultButtonWidget extends StatelessWidget {
   final String? text;
@@ -54,6 +57,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final bool? isSuffixShow;
   final VoidCallback? suffixOnPressed;
+  final ValueChanged<String>? onSubmit;
   final IconData? suffixIcon;
 
   const DefaultTextFieldWidget({
@@ -68,6 +72,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
     this.isSuffixShow,
     this.suffixOnPressed,
     this.suffixIcon,
+    this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -95,6 +100,7 @@ class DefaultTextFieldWidget extends StatelessWidget {
         child: TextFormField(
             controller: controller,
             obscureText: isObscure ?? false,
+            onChanged: onSubmit,
             decoration: InputDecoration(
               icon: icon,
               hintText: hintText,
@@ -114,3 +120,101 @@ class DefaultTextFieldWidget extends StatelessWidget {
     );
   }
 }
+
+Widget buildListProducts(model, BuildContext context,{bool isOldPrice = true}) => Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: SizedBox(
+    height: 120.0,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            CachedNetworkImage(
+              imageUrl: model.image!,
+              width: 120,
+              height: 120.0,
+              fit: BoxFit.fill,
+            ),
+            if (model.discount != 0 && isOldPrice)
+              Container(
+                color: Colors.red,
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: const Text(
+                  'DISCOUNT',
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(
+          width: 20.0,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                model.name!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  height: 1.3,
+                ),
+              ),
+              const Spacer(
+                flex: 1,
+              ),
+              Row(
+                children: [
+                  Text(
+                    model.price.toString(),
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  if (model.discount != 0 && isOldPrice)
+                    Text(
+                      model.oldPrice.toString(),
+                      style: const TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                        fontSize: 10.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      HomeBloc.get(context).add(HomeChangeFavoritesDataEvent(id: model.id));
+                    },
+                    icon: CircleAvatar(
+                      radius: 15.0,
+                      backgroundColor: HomeBloc.get(context).favorites![model.id] !=false ? Colors.red : Colors.grey,
+                      child: const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);

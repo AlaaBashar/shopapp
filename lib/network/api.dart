@@ -28,6 +28,22 @@ class DioHelper {
       data: data,
     );
   }
+  static Future<Response> putData({
+    required String path,
+    required Map<String, dynamic> data,
+    String? lang = 'en',
+    String? token,
+  }) async {
+    dio!.options.headers = {
+      'Content-Type' : 'application/json',
+      'lang': lang,
+      'Authorization': token ?? '',
+    };
+    return await dio!.put(
+      path,
+      data: data,
+    );
+  }
 
   static Future<Response> getData({
     required String path,

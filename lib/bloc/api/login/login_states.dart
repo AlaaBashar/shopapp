@@ -12,14 +12,14 @@ abstract class LoginStates extends Equatable {
 class InitialLoginState extends LoginStates {}
 
 class LoginSuccessState extends LoginStates {
-  final UserModel? loginModel;
+   UserModel? loginModel;
 
   LoginSuccessState({
     this.loginModel,
   });
 
   LoginSuccessState copyWith({
-    final UserModel? loginModel,
+    UserModel? loginModel,
 
   }) {
     return LoginSuccessState(

@@ -12,11 +12,13 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
     on<HomeChangeFavoritesDataEvent>(_changeFavorites);
     on<HomeGetFavorItemsDataEvent>(_getFavoritesData);
     on<HomeGetProfileDataEvent>(_getProfileData);
-
+    on<HomeUpdateProfileDataEvent>(_updateProfileData);
   }
+
   ///-----------------------------------------------------------------------------------------
 
   static HomeBloc get(context) => BlocProvider.of(context);
+
   ///-----------------------------------------------------------------------------------------
 
   int currentIndex = 0;
@@ -24,8 +26,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
     const ProductsScreen(),
     const CategoriesScreen(),
     const FavoritesScreen(),
-     SettingScreen(),
+    SettingScreen(),
   ];
+
   ///-----------------------------------------------------------------------------------------
 
   void _onChangeIndexOfNav(
@@ -34,9 +37,11 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
     emit(HomeChangeBottomState()
         .copyWith(currentIndex: currentIndex, bottomNav: bottomNav));
   }
+
   ///-----------------------------------------------------------------------------------------
   HomeModel? homeModel;
   Map<int, bool>? favorites = {};
+
   void _getHomeData(HomeGetDataEvent event, Emitter<HomeStates> emit) async {
     Response response;
     try {
@@ -58,7 +63,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
 
   ///-----------------------------------------------------------------------------------------
   CategoriesModel? categoriesModel;
-  void _getCategoriesData(HomeGetCategoriesDataEvent event, Emitter<HomeStates> emit) async {
+
+  void _getCategoriesData(
+      HomeGetCategoriesDataEvent event, Emitter<HomeStates> emit) async {
     Response response;
     try {
       response = await DioHelper.getData(
@@ -70,9 +77,12 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
       emit(HomeErrorCategoriesState(error: error.toString()));
     }
   }
+
   ///-----------------------------------------------------------------------------------------
   ChangeFavoritesModel? changeFavoritesModel;
-  void _changeFavorites(HomeChangeFavoritesDataEvent? event, Emitter<HomeStates> emit) async {
+
+  void _changeFavorites(
+      HomeChangeFavoritesDataEvent? event, Emitter<HomeStates> emit) async {
     Response response;
     favorites![event!.id!] = !favorites![event.id!]!;
 
@@ -96,7 +106,8 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
         textColor: Colors.white,
         backgroundColor: Colors.greenAccent,
       );
-      emit(HomeSuccessFavoritesState().copyWith(changeFavoritesModel: changeFavoritesModel));
+      emit(HomeSuccessFavoritesState()
+          .copyWith(changeFavoritesModel: changeFavoritesModel));
     } catch (error) {
       if (!changeFavoritesModel!.status!) {
         favorites![event.id!] = !favorites![event.id!]!;
@@ -108,7 +119,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
 
   ///-----------------------------------------------------------------------------------------
   FavoritesModel? favoritesModel;
-  void _getFavoritesData(HomeGetFavorItemsDataEvent event, Emitter<HomeStates> emit) async {
+
+  void _getFavoritesData(
+      HomeGetFavorItemsDataEvent event, Emitter<HomeStates> emit) async {
     emit(HomeLoadingFavoritesItemState());
     Response response;
     try {
@@ -117,15 +130,20 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
         token: token,
       );
       favoritesModel = FavoritesModel.fromJson(response.data);
-      emit(HomeGetFavoritesItemState().copyWith(favoritesModel: favoritesModel));
+      emit(
+          HomeGetFavoritesItemState().copyWith(favoritesModel: favoritesModel));
     } catch (error) {
       emit(HomeErrorFavoritesItemState(error: error.toString()));
     }
   }
+
   ///-----------------------------------------------------------------------------------------
   UserModel? userModel;
-  void _getProfileData(HomeGetProfileDataEvent event, Emitter<HomeStates> emit) async {
+
+  void _getProfileData(
+      HomeGetProfileDataEvent event, Emitter<HomeStates> emit) async {
     Response response;
+    emit(HomeLoadingGetProfileState());
     try {
       response = await DioHelper.getData(
         path: 'profile',
@@ -133,12 +151,48 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
       );
       userModel = UserModel.fromJson(response.data);
 
-
       emit(HomeSuccessGetProfileState());
     } catch (error) {
       emit(HomeErrorGetProfileState(error: error.toString()));
     }
   }
+
+  ///-----------------------------------------------------------------------------------------
+  void _updateProfileData(
+      HomeUpdateProfileDataEvent event, Emitter<HomeStates> emit) async {
+    Response response;
+    emit(HomeLoadingUpdateProfileDataState());
+    try {
+      response = await DioHelper.putData(
+        path: 'update-profile',
+        token: token,
+        data: {
+          'name': event.name,
+          'email': event.email,
+          'phone': event.phone,
+        },
+      );
+      userModel = UserModel.fromJson(response.data);
+      if (userModel!.status == true) {
+        showToast(
+          text: '${userModel!.message}',
+          textColor: Colors.white,
+          backgroundColor: Colors.greenAccent,
+        );
+        emit(HomeSuccessUpdateProfileDataState());
+      } else {
+        add(HomeGetProfileDataEvent());
+        showToast(
+          text: '${userModel!.message}',
+          textColor: Colors.white,
+          backgroundColor: Colors.redAccent,
+        );
+      }
+    } catch (error) {
+      emit(HomeErrorGetFavoritesState(error: error.toString()));
+    }
+  }
+
   ///-----------------------------------------------------------------------------------------
 
 }

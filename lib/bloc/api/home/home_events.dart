@@ -36,3 +36,12 @@ class HomeChangeFavoritesDataEvent extends HomeEvents {
 class HomeGetFavorItemsDataEvent extends HomeEvents {}
 
 class HomeGetProfileDataEvent extends HomeEvents {}
+
+class HomeUpdateProfileDataEvent extends HomeEvents {
+  final String? name;
+  final String? email;
+  final String? phone;
+
+  HomeUpdateProfileDataEvent({this.name, this.email, this.phone});
+}
+

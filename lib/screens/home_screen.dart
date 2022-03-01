@@ -29,12 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
         var homeBloc = HomeBloc.get(context);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Home Screen'),
+
+            title: const Text(
+              'Home Screen',
+              style: TextStyle(color: Colors.black),
+            ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.search),
                 onPressed: () {
-                 openNewPage(context,const SearchScreen());
+                 openNewPage(context,SearchScreen());
                 },
               )
             ],
@@ -42,15 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
           body: homeBloc.bottomNav[homeBloc.currentIndex],
           bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(
-              canvasColor: Colors.indigo,
+              backgroundColor: Colors.transparent
             ),
             child: BottomNavigationBar(
-              unselectedIconTheme: const IconThemeData(color: Colors.white),
+              unselectedIconTheme: const IconThemeData(color: Colors.black,),
               showUnselectedLabels: true,
-              fixedColor: Colors.white,
-              selectedIconTheme: const IconThemeData(color: Colors.blue),
+              fixedColor: Colors.black,
+              selectedIconTheme: const IconThemeData(color: Colors.black),
               type: BottomNavigationBarType.fixed,
-              unselectedItemColor: Colors.white,
+              unselectedItemColor: Colors.black,
               onTap: (index) {
                 homeBloc.add(HomeChangeCurrentNveBottomEvent(index: index));
               },

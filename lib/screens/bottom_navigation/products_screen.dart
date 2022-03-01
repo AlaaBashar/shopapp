@@ -27,8 +27,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       builder: (context, state) {
         var homeBloc = HomeBloc.get(context);
         return ConditionalBuilder(
-          condition:
-          homeBloc.homeModel != null && homeBloc.categoriesModel != null,
+          condition: homeBloc.homeModel != null && homeBloc.categoriesModel != null,
           fallback: (context) => const Center(
             child: CircularProgressIndicator(),
           ),

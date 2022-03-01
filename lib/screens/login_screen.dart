@@ -25,18 +25,18 @@ class _LoginScreenState extends State<LoginScreen> {
     var apiBloc = LoginBloc.get(context);
     return BlocConsumer<LoginBloc, LoginStates>(
       listener: (context, state) {
-        if(state is LoginSuccessState){
-          print('--LoginSuccessState----------------------------------------------------');
-          CacheHelper.saveData(key: 'token', value: state.loginModel!.data!.token).then((value) {
+        if (state is LoginSuccessState) {
+          print(
+              '--LoginSuccessState----------------------------------------------------');
+          CacheHelper.saveData(
+                  key: 'token', value: state.loginModel!.data!.token)
+              .then((value) {
             setState(() {
               token = state.loginModel!.data!.token.toString();
             });
-            openNewPage(context, const HomeScreen(),popPreviousPages: true);
+            openNewPage(context, const HomeScreen(), popPreviousPages: true);
           });
-
         }
-
-
       },
       builder: (context, state) {
         return Scaffold(
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text('Don\'t have an account?'),
                       TextButton(
                         onPressed: () {
-                          openNewPage(context, const RegisterScreen());
+                          openNewPage(context, RegisterScreen());
                         },
                         child: const Text('Register Now'),
                       ),
@@ -136,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    HomeBloc.get(context).add(HomeGetDataEvent());
     FocusManager.instance.primaryFocus?.unfocus();
     LoginBloc.get(context).add(
       LoginEvent(

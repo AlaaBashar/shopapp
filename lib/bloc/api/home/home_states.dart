@@ -43,7 +43,6 @@ class HomeDataErrorState extends HomeStates {
   HomeDataErrorState({this.error});
 }
 
-
 class HomeSuccessDataState extends HomeStates {
   HomeModel? homeModel;
   Map<int, bool>? favorites;
@@ -156,6 +155,7 @@ class HomeErrorFavoritesItemState extends HomeStates {
 }
 
 class HomeSuccessGetProfileState extends HomeStates {}
+class HomeLoadingGetProfileState extends HomeStates {}
 
 class HomeErrorGetProfileState extends HomeStates {
   final String? error;
@@ -164,4 +164,18 @@ class HomeErrorGetProfileState extends HomeStates {
 }
 
 class HomeLoadingGetFavoritesState extends HomeStates {}
+
+
+class HomeLoadingUpdateProfileDataState extends HomeStates {}
+class HomeRejectedUpdateProfileDataState extends HomeStates {}
+
+class HomeSuccessUpdateProfileDataState extends HomeStates {}
+
+class HomeErrorGetFavoritesState extends HomeStates {
+  final String? error;
+
+  HomeErrorGetFavoritesState({this.error});
+
+}
+
 

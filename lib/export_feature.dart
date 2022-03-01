@@ -19,6 +19,7 @@ export 'shared_widget/shared_widget_file.dart';
 ///MODELS
 export 'models/user_model/user_model.dart';
 export 'models/home_model/home_model.dart';
+export 'models/search_model/search_model.dart';
 export 'models/categories_model/categories_model.dart';
 export 'models/favorites_model/favorites_model.dart';
 export 'models/favorites_change_model/favorites_change_model.dart';
@@ -35,10 +36,18 @@ export 'network/api.dart';
 export 'bloc/api/login/login_bloc.dart';
 export 'bloc/api/login/login_events.dart';
 export 'bloc/api/login/login_states.dart';
+///REGISTER BLOC
+export 'bloc/api/register/register_bloc.dart';
+export 'bloc/api/register/register_events.dart';
+export 'bloc/api/register/register_states.dart';
 ///HOME BLOC
 export 'bloc/api/home/home_bloc.dart';
 export 'bloc/api/home/home_events.dart';
 export 'bloc/api/home/home_states.dart';
+///SEARCH BLOC
+export 'bloc/api/search/search_bloc.dart';
+export 'bloc/api/search/search_events.dart';
+export 'bloc/api/search/search_states.dart';
 
 
 

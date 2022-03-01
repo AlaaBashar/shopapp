@@ -6,7 +6,7 @@ class UserModel {
   UserModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = UserData.fromJson(json['data']);
+    data = json['data'] != null ? UserData.fromJson(json['data']) : null;
   }
 }
 
@@ -31,5 +31,14 @@ class UserData {
     token = json['token'];
   }
 
-
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'email': email,
+    'phone': phone,
+    'image': image,
+    'points': points,
+    'credit': credit,
+    'token': token,
+  };
 }

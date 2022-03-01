@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(InitialLoginState()),
         ),
+        BlocProvider<RegisterBloc>(create: (context) => RegisterBloc(InitialRegisterState()),),
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(InitialHomeState()),
         ),
@@ -56,6 +57,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            iconTheme: IconThemeData(color: Colors.black)
+          ),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
               backgroundColor: Colors.indigo),
         ),
