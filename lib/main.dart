@@ -43,29 +43,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(InitialLoginState()),
-        ),
-        BlocProvider<RegisterBloc>(create: (context) => RegisterBloc(InitialRegisterState()),),
-        BlocProvider<HomeBloc>(
-          create: (context) => HomeBloc(InitialHomeState()),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            iconTheme: IconThemeData(color: Colors.black)
-          ),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              backgroundColor: Colors.indigo),
-        ),
-        home: widget,
+    return BlocProvider<HomeBloc>(
+      create: (BuildContext context) => HomeBloc(InitialHomeState()),
+      child: BlocConsumer<HomeBloc,HomeStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<LoginBloc>(
+                create: (context) => LoginBloc(InitialLoginState()),
+              ),
+              BlocProvider<RegisterBloc>(
+                create: (context) => RegisterBloc(InitialRegisterState()),
+              ),
+              // BlocProvider<HomeBloc>(
+              //   create: (context) => HomeBloc(InitialHomeState()),
+              // ),
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              darkTheme:darkMode,
+              theme: lightMode,
+              themeMode: HomeBloc.get(context).isDark == false ? ThemeMode.light : ThemeMode.dark,
+              home: widget,
+            ),
+          );
+        },
       ),
     );
   }

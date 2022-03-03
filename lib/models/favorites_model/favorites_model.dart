@@ -66,6 +66,7 @@ class Product {
   String? name;
   String? description;
 
+
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
@@ -74,5 +75,6 @@ class Product {
     image = json['image'];
     name = json['name'];
     description = json['description'];
+
   }
 }

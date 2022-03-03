@@ -53,6 +53,8 @@ class SearchProduct {
   String? image;
   String? name;
   String? description;
+  List<String>? images = <String>[];
+
 
   SearchProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,5 +64,7 @@ class SearchProduct {
     image = json['image'];
     name = json['name'];
     description = json['description'];
+    images = json['images'].cast<String>();
+
   }
 }

@@ -42,8 +42,10 @@ class ProductsModel {
   dynamic discount;
   String? image;
   String? name;
+  String? description;
   bool? inFavorite;
   bool? inCart;
+  List<String>? images = <String>[];
 
 
 
@@ -57,7 +59,10 @@ class ProductsModel {
     name = json['name'];
     inFavorite = json['in_favorites'] ?? false;
     inCart = json['in_cart'];
+    description = json['description'];
+    images = json['images'].cast<String>();
   }
+
 
 
 }

@@ -178,4 +178,34 @@ class HomeErrorGetFavoritesState extends HomeStates {
 
 }
 
+class HomeSuccessChangeAppModeState extends HomeStates {
+  bool? isDark;
+  IconData? modeIcon;
+
+  HomeSuccessChangeAppModeState({
+   this.isDark,
+    this.modeIcon,
+  });
+
+  HomeSuccessChangeAppModeState copyWith(
+      {
+        bool? isDark,
+        IconData? modeIcon,
+
+      })
+  {
+    {
+      return HomeSuccessChangeAppModeState(
+          isDark: isDark ?? this.isDark,
+          modeIcon: modeIcon ?? this.modeIcon,
+
+      );
+    }
+  }
+
+  @override
+  List<Object?> get props => [isDark,modeIcon];
+
+
+}
 

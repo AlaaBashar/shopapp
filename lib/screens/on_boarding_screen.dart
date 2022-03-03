@@ -39,74 +39,95 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       title: 'DELIVERY SERVICE',
       body: 'Modern delivering technologies Shipping to the porch of you apartments',
     ),
+    OnBoardingItem(
+      image: ImageHelper.pageViewFour,
+      title: 'CLIENT REVIEWS',
+      body: 'Honest feedbacks from our clients. Happy clients - happy us',
+    ),
   ];
   bool isDone = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed:submit,
-            child: const Text('SKIP',style: TextStyle(color: Colors.indigo),),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-
-              child: PageView.builder(
-                controller: boardController,
-                onPageChanged: (int index) {
-                  if (index == boardingItem.length - 1) {
-                    setState(() {
-                      isDone = true;
-                    });
-                  } else {
-                    setState(() {
-                      isDone = false;
-                    });
-                  }
-                },
-                allowImplicitScrolling: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: boardingItem.length,
-                itemBuilder: (context, index) =>
-                    buildBoardingItem(boardingItem[index]),
-              ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            TextButton(
+              onPressed:submit,
+              child: const Text('SKIP',),
             ),
-            const SizedBox(height: 40.0),
-            Row(
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
 
-              children: [
-                SmoothPageIndicator(
+                child: PageView.builder(
                   controller: boardController,
-                  count: boardingItem.length,
-                  effect: const ExpandingDotsEffect(),
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    if (!isDone) {
-                      boardController.nextPage(
-                          duration: const Duration(milliseconds: 700),
-                          curve: Curves.fastLinearToSlowEaseIn);
+                  onPageChanged: (int index) {
+                    if (index == boardingItem.length - 1) {
+                      setState(() {
+                        isDone = true;
+                        print('isDone----------------------------');
+                        print(isDone);
+                      });
                     } else {
-                      submit();
+                      setState(() {
+                        isDone = false;
+                        print('isDone----------------------------');
+                        print(isDone);
+
+                      });
                     }
                   },
-                  child: const Icon(Icons.arrow_forward_outlined),
-                )
-              ],
-            )
-          ],
+                  allowImplicitScrolling: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: boardingItem.length,
+                  itemBuilder: (context, index) =>
+                      buildBoardingItem(boardingItem[index]),
+                ),
+              ),
+              const SizedBox(height: 40.0),
+              Row(
+                children: [
+                  SmoothPageIndicator(
+                    controller: boardController,
+                    count: boardingItem.length,
+                    onDotClicked: onClick,
+                    effect: const ExpandingDotsEffect(
+                      activeDotColor: Colors.blue
+                    ),
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  PhysicalModel(
+                    color: Colors.black,
+                    elevation: 7.0,
+                    shape: BoxShape.circle,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        if (!isDone) {
+                          print('isDone----------------------------');
+                          print(isDone);
+                          boardController.nextPage(
+                              duration: const Duration(milliseconds: 700),
+                              curve: Curves.fastLinearToSlowEaseIn);
+                        } else {
+                          submit();
+                        }
+                      },
+                      child: const Icon(Icons.arrow_forward_outlined),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -132,7 +153,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       },
     );
   }
-
+  void onClick(int index){
+    boardController.animateToPage(
+      index,
+      curve: Curves.fastLinearToSlowEaseIn,
+      duration: const Duration(milliseconds: 700),
+    );
+  }
   Widget buildBoardingItem(OnBoardingItem item) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

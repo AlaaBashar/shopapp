@@ -12,7 +12,7 @@ class FavoritesScreen extends StatelessWidget {
     return BlocConsumer<HomeBloc, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) => ConditionalBuilder(
-        condition: state is! HomeChangeFavoritesState,
+        condition: HomeBloc.get(context).favoritesModel != null,
         builder: (context) => ListView.separated(
           physics: const BouncingScrollPhysics(),
           separatorBuilder: (context, index) => const Divider(),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
     on<HomeGetFavorItemsDataEvent>(_getFavoritesData);
     on<HomeGetProfileDataEvent>(_getProfileData);
     on<HomeUpdateProfileDataEvent>(_updateProfileData);
+    on<HomeChangeAppModeEvent>(_changeAppMode);
   }
 
   ///-----------------------------------------------------------------------------------------
@@ -194,5 +197,18 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   }
 
   ///-----------------------------------------------------------------------------------------
+  bool? isDark = CacheHelper.getData(key: 'isDark') ?? false;
+  IconData? modeIcon = CacheHelper.getData(key: 'isDark') == true
+      ? Icons.wb_sunny
+      : Icons.brightness_3_outlined;
 
+  void _changeAppMode(
+      HomeChangeAppModeEvent event, Emitter<HomeStates> emit) async {
+    isDark = !isDark!;
+    modeIcon = isDark! ? Icons.wb_sunny : Icons.brightness_3_outlined;
+    print('isDark---------------------------------------------------');
+    print(isDark);
+    await CacheHelper.saveData(key: 'isDark', value: isDark);
+    emit(HomeSuccessChangeAppModeState().copyWith(isDark: isDark));
+  }
 }

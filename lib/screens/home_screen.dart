@@ -27,34 +27,29 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (context, state) {},
       builder: (context, state) {
         var homeBloc = HomeBloc.get(context);
-        return Scaffold(
-          appBar: AppBar(
-
-            title: const Text(
-              'Home Screen',
-              style: TextStyle(color: Colors.black),
+        return SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Home',
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(HomeBloc.get(context).modeIcon),
+                  onPressed: () {
+                   HomeBloc.get(context).add(HomeChangeAppModeEvent());
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                   openNewPage(context,SearchScreen());
+                  },
+                ),
+              ],
             ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                 openNewPage(context,SearchScreen());
-                },
-              )
-            ],
-          ),
-          body: homeBloc.bottomNav[homeBloc.currentIndex],
-          bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(
-              backgroundColor: Colors.transparent
-            ),
-            child: BottomNavigationBar(
-              unselectedIconTheme: const IconThemeData(color: Colors.black,),
-              showUnselectedLabels: true,
-              fixedColor: Colors.black,
-              selectedIconTheme: const IconThemeData(color: Colors.black),
-              type: BottomNavigationBarType.fixed,
-              unselectedItemColor: Colors.black,
+            body: homeBloc.bottomNav[homeBloc.currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
                 homeBloc.add(HomeChangeCurrentNveBottomEvent(index: index));
               },

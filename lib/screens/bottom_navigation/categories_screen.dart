@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../export_feature.dart';
@@ -10,13 +11,24 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeStates>(
       listener: (context, index) {},
-      builder: (context, index) => ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: HomeBloc.get(context).categoriesModel!.data!.data!.length,
-        itemBuilder: (context, index) => buildCatItem(
-            HomeBloc.get(context).categoriesModel!.data!.data![index]),
+
+
+      builder: (context, index) =>ConditionalBuilder(
+        condition: HomeBloc.get(context).categoriesModel != null,
+        builder: (context) => ListView.separated(
+          physics: const BouncingScrollPhysics(),
+          separatorBuilder: (context, index) => const Divider(),
+          itemCount: HomeBloc.get(context).categoriesModel!.data!.data!.length,
+          itemBuilder: (context, index) => buildCatItem(
+              HomeBloc.get(context).categoriesModel!.data!.data![index]),
+        ),
+        fallback: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
+
+
+
     );
   }
 

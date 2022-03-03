@@ -4,6 +4,7 @@ export 'screens/login_screen.dart';
 export 'screens/register_screen.dart';
 export 'screens/on_boarding_screen.dart';
 export 'screens/search_screen.dart';
+export 'screens/products_details_screen.dart';
 /// BOTTOM NAVIGATION SCREEN
 export 'screens/bottom_navigation/products_screen.dart';
 export 'screens/bottom_navigation/categories_screen.dart';

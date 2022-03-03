@@ -45,3 +45,5 @@ class HomeUpdateProfileDataEvent extends HomeEvents {
   HomeUpdateProfileDataEvent({this.name, this.email, this.phone});
 }
 
+class HomeChangeAppModeEvent extends HomeEvents {}
+

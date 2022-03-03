@@ -30,65 +30,85 @@ class _SettingScreenState extends State<SettingScreen> {
           nameController.text = model.userModel!.data!.name!;
           emailController.text = model.userModel!.data!.email!;
           phoneController.text = model.userModel!.data!.phone!;
-        return Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  if(state is HomeLoadingUpdateProfileDataState)
-                    const LinearProgressIndicator(),
-                  DefaultTextFieldWidget(
-                    icon: const Icon(Icons.text_fields),
-                    isSuffixShow: false,
-                    controller: nameController,
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'name must not be empty';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20.0,),
-                  DefaultTextFieldWidget(
-                    icon: const Icon(Icons.account_box),
-                    isSuffixShow: false,
-                    controller: emailController,
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'email must not be empty';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20.0,),
-                  DefaultTextFieldWidget(
-                    icon: const Icon(Icons.phone),
-                    isSuffixShow: false,
-                    controller: phoneController,
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'phone must not be empty';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20.0,),
-                  DefaultButtonWidget(
-                    onPressed: () => onUpdate(context),
-                    text: 'UPDATE',
-                    color: Colors.blue,
-                  ),
-                  const SizedBox(height: 20.0,),
-                  DefaultButtonWidget(
-                    onPressed: () => onLogOut(context),
-                    text: 'LOGOUT',
-                    color: Colors.blue,
-                  ),
-                ],
+        return ConditionalBuilder(
+            condition:state is! HomeLoadingGetProfileState,
+            builder: (context) {
+              return  LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: ConstrainedBox(constraints:BoxConstraints(
+                  minWidth: constraints.maxWidth,
+                  minHeight: constraints.maxHeight
               ),
-            ),
-          );
+                child: IntrinsicHeight(
+                  child: Form(
+                    key: formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          if(state is HomeLoadingUpdateProfileDataState)
+                            const LinearProgressIndicator(),
+                          DefaultTextFieldWidget(
+                            icon: const Icon(Icons.text_fields),
+                            isSuffixShow: false,
+                            controller: nameController,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'name must not be empty';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 20.0,),
+                          DefaultTextFieldWidget(
+                            icon: const Icon(Icons.account_box),
+                            isSuffixShow: false,
+                            controller: emailController,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'email must not be empty';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 20.0,),
+                          DefaultTextFieldWidget(
+                            icon: const Icon(Icons.phone),
+                            isSuffixShow: false,
+                            controller: phoneController,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return 'phone must not be empty';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 20.0,),
+                          const Spacer(flex: 1,),
+                          DefaultButtonWidget(
+                            onPressed: () => onUpdate(context),
+                            text: 'Update',
+                            color: Colors.blue,
+                            fontSize: 16.0,
+                          ),
+                          const SizedBox(height: 20.0,),
+                          DefaultButtonWidget(
+                            onPressed: () => onLogOut(context),
+                            text: 'Sign Out',
+                            fontSize: 16.0,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),),
+              ),
+            );
+          },);
+        }, fallback: (context){
+          return const Center(child: CircularProgressIndicator(),);
+        });
       },
     );
   }

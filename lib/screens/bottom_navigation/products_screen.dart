@@ -15,7 +15,6 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
   }
@@ -27,19 +26,20 @@ class _ProductsScreenState extends State<ProductsScreen> {
       builder: (context, state) {
         var homeBloc = HomeBloc.get(context);
         return ConditionalBuilder(
-          condition: homeBloc.homeModel != null && homeBloc.categoriesModel != null,
+          condition:
+              homeBloc.homeModel != null && homeBloc.categoriesModel != null,
           fallback: (context) => const Center(
             child: CircularProgressIndicator(),
           ),
-          builder: (context) =>
-              productsBuilder(homeBloc.homeModel, homeBloc.categoriesModel,context),
+          builder: (context) => productsBuilder(
+              homeBloc.homeModel, homeBloc.categoriesModel, context),
         );
       },
     );
   }
 
-  Widget productsBuilder(
-      HomeModel? homeModel, CategoriesModel? categoriesModel,BuildContext? context) =>
+  Widget productsBuilder(HomeModel? homeModel, CategoriesModel? categoriesModel,
+          BuildContext? context) =>
       SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -49,12 +49,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
               items: homeModel!.data!.banners!
                   .map(
                     (e) => CachedNetworkImage(
-                        imageUrl: '${e.image}',
-                        width: double.infinity,
+                      imageUrl: '${e.image}',
+                      width: double.infinity,
                       fit: BoxFit.fill,
                     ),
-                  ).toList(),
-
+                  )
+                  .toList(),
               options: CarouselOptions(
                 autoPlay: true,
                 height: 250,
@@ -116,6 +116,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               height: 20.0,
             ),
             Container(
+
               color: Colors.grey[300],
               child: GridView.count(
                 shrinkWrap: true,
@@ -126,9 +127,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: List.generate(
                   homeModel.data!.products!.length,
-                      (index) => buildGridProducts(homeModel.data!.products![index],context
-
-                  ),
+                  (index) => buildGridProducts(
+                      homeModel.data!.products![index], context),
                 ),
               ),
             ),
@@ -137,121 +137,143 @@ class _ProductsScreenState extends State<ProductsScreen> {
       );
 
   Widget buildCategoriesItem(DataModel? model) => SizedBox(
-    height: 100,
-    width: 100,
-    child: Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
+        height: 100,
+        width: 100,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
             CachedNetworkImage(
               imageUrl: model!.image!,
               height: 100,
               width: 100,
               fit: BoxFit.cover,
             ),
-        Container(
-          width: double.infinity,
-          color: Colors.black.withOpacity(0.7),
-          child: Text(
-            model.name!,
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-
-  Widget buildGridProducts(ProductsModel? model,BuildContext? context) => Container(
-    color: Colors.white,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: AlignmentDirectional.bottomStart,
-          children: [
-            CachedNetworkImage(
-              imageUrl: model!.image!,
-              height: 200.0,
+            Container(
               width: double.infinity,
-              fit: BoxFit.fill,
-            ),
-            if (model.discount != 0)
-              Container(
-                color: Colors.red,
-                padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                child: const Text(
-                  'DISCOUNT',
-                  style: TextStyle(
-                    fontSize: 10.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+              color: Colors.black.withOpacity(0.7),
+              child: Text(
                 model.name!,
-                maxLines: 2,
+                textAlign: TextAlign.center,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 14.0,
-                  height: 1.3,
+                  color: Colors.white,
                 ),
               ),
-              Row(
+            ),
+          ],
+        ),
+      );
+
+  Widget buildGridProducts(ProductsModel? model, BuildContext? context) =>
+      Container(
+        color: Theme.of(context!).backgroundColor,
+        child: InkWell(
+          onTap: () => openNewPage(
+              context,
+              ProductsDetailsScreen(
+                id: model!.id,
+                description: model.description,
+                discount: model.discount,
+                image: model.image,
+                inCart: model.inCart,
+                inFavorite: model.inFavorite,
+                name: model.name,
+                oldPrice: model.oldPrice,
+                price: model.price,
+                images: model.images,
+              )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                alignment: AlignmentDirectional.bottomStart,
                 children: [
-                  Text(
-                    '${model.price.round()}',
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5.0,
+                  CachedNetworkImage(
+                    imageUrl: model!.image!,
+                    height: 200.0,
+                    width: double.infinity,
+                    fit: BoxFit.fill,
                   ),
                   if (model.discount != 0)
-                    Text(
-                      '${model.oldPrice.round()}',
-                      style: const TextStyle(
-                        decoration: TextDecoration.lineThrough,
-                        fontSize: 10.0,
-                        color: Colors.grey,
+                    Container(
+                      color: Colors.red,
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: const Text(
+                        'DISCOUNT',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      HomeBloc.get(context).add(HomeChangeFavoritesDataEvent(id:model.id));
-                    },
-                    icon:CircleAvatar(
-                      radius: 15.0,
-                      backgroundColor: HomeBloc.get(context).favorites![model.id] == false ? Colors.grey: Colors.red,
-                      child:const Icon(
-                        Icons.favorite_border,
-                        color: Colors.white,
-                        size: 14,
-                      ),
-                    ),
-                  ),
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.name!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        height: 1.3,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${model.price.round()}',
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5.0,
+                        ),
+                        if (model.discount != 0)
+                          Text(
+                            '${model.oldPrice.round()}',
+                            style: const TextStyle(
+                              decoration: TextDecoration.lineThrough,
+                              fontSize: 10.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            HomeBloc.get(context).add(
+                                HomeChangeFavoritesDataEvent(id: model.id));
+                          },
+                          icon: CircleAvatar(
+                            radius: 15.0,
+                            backgroundColor:
+                                HomeBloc.get(context).favorites![model.id] ==
+                                        false
+                                    ? Colors.grey
+                                    : Colors.red,
+                            child: const Icon(
+                              Icons.favorite_border,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
-      ],
-    ),
-  );
+      );
 }
