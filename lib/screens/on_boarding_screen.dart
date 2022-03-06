@@ -49,84 +49,90 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            TextButton(
-              onPressed:submit,
-              child: const Text('SKIP',),
-            ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-
-                child: PageView.builder(
-                  controller: boardController,
-                  onPageChanged: (int index) {
-                    if (index == boardingItem.length - 1) {
-                      setState(() {
-                        isDone = true;
-                        print('isDone----------------------------');
-                        print(isDone);
-                      });
-                    } else {
-                      setState(() {
-                        isDone = false;
-                        print('isDone----------------------------');
-                        print(isDone);
-
-                      });
-                    }
-                  },
-                  allowImplicitScrolling: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: boardingItem.length,
-                  itemBuilder: (context, index) =>
-                      buildBoardingItem(boardingItem[index]),
-                ),
+    return WillPopScope(
+      onWillPop: () async{
+        final shouldPop = await showMyDialog(context) ;
+        return shouldPop;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            actions: [
+              TextButton(
+                onPressed:submit,
+                child: const Text('SKIP',),
               ),
-              const SizedBox(height: 40.0),
-              Row(
-                children: [
-                  SmoothPageIndicator(
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+
+                  child: PageView.builder(
                     controller: boardController,
-                    count: boardingItem.length,
-                    onDotClicked: onClick,
-                    effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.blue
-                    ),
-                  ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  PhysicalModel(
-                    color: Colors.black,
-                    elevation: 7.0,
-                    shape: BoxShape.circle,
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        if (!isDone) {
+                    onPageChanged: (int index) {
+                      if (index == boardingItem.length - 1) {
+                        setState(() {
+                          isDone = true;
                           print('isDone----------------------------');
                           print(isDone);
-                          boardController.nextPage(
-                              duration: const Duration(milliseconds: 700),
-                              curve: Curves.fastLinearToSlowEaseIn);
-                        } else {
-                          submit();
-                        }
-                      },
-                      child: const Icon(Icons.arrow_forward_outlined),
+                        });
+                      } else {
+                        setState(() {
+                          isDone = false;
+                          print('isDone----------------------------');
+                          print(isDone);
+
+                        });
+                      }
+                    },
+                    allowImplicitScrolling: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: boardingItem.length,
+                    itemBuilder: (context, index) =>
+                        buildBoardingItem(boardingItem[index]),
+                  ),
+                ),
+                const SizedBox(height: 40.0),
+                Row(
+                  children: [
+                    SmoothPageIndicator(
+                      controller: boardController,
+                      count: boardingItem.length,
+                      onDotClicked: onClick,
+                      effect: const ExpandingDotsEffect(
+                        activeDotColor: Colors.blue
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    PhysicalModel(
+                      color: Colors.black,
+                      elevation: 7.0,
+                      shape: BoxShape.circle,
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          if (!isDone) {
+                            print('isDone----------------------------');
+                            print(isDone);
+                            boardController.nextPage(
+                                duration: const Duration(milliseconds: 700),
+                                curve: Curves.fastLinearToSlowEaseIn);
+                          } else {
+                            submit();
+                          }
+                        },
+                        child: const Icon(Icons.arrow_forward_outlined),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

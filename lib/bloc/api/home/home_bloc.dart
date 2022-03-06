@@ -199,8 +199,7 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   ///-----------------------------------------------------------------------------------------
   bool? isDark = CacheHelper.getData(key: 'isDark') ?? false;
   IconData? modeIcon = CacheHelper.getData(key: 'isDark') == true
-      ? Icons.wb_sunny
-      : Icons.brightness_3_outlined;
+      ? Icons.wb_sunny : Icons.brightness_3_outlined;
 
   void _changeAppMode(
       HomeChangeAppModeEvent event, Emitter<HomeStates> emit) async {

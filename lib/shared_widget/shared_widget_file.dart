@@ -337,3 +337,65 @@ Widget buildListProducts(model, BuildContext context, {bool isOldPrice = true ,i
         ),
       ),
     );
+
+Future showMyDialog(context) async => showDialog(
+  context: context,
+  //barrierDismissible: false, // user must tap button!
+  builder: (BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Theme.of(context).backgroundColor,
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
+      shape:RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0)
+      ),
+      titlePadding:EdgeInsets.zero ,
+      title: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.red,
+              borderRadius:BorderRadius.only(topLeft:Radius.circular(15.0),topRight:Radius.circular(15.0 )),
+            ),
+            height: 70.0,
+            width: double.infinity,
+            child: const Icon(Icons.warning_amber_rounded,size: 55.0,color: Colors.white,),
+          ),
+          const SizedBox(height: 10.0,),
+            Text('Warning!',style: TextStyle(fontWeight: FontWeight.w700,fontSize: 24.0,color:Theme.of(context).appBarTheme.titleTextStyle!.color),),
+        ],
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children:  [
+            Text('Do you want to exit an App?',style: TextStyle(color: Theme.of(context).appBarTheme.titleTextStyle!.color),),
+          ],
+        ),
+      ),
+      actions: [
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              color: Colors.white,
+              child: const Text('No'),
+              splashColor: Colors.redAccent,
+              elevation: 8.0,
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              color: Colors.white,
+              child: const Text('Yes'),
+              splashColor: Colors.greenAccent,
+              elevation: 8.0,
+
+            ),
+          ],
+        );
+  },
+);

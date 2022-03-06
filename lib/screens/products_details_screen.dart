@@ -38,88 +38,122 @@ class ProductsDetailsScreen extends StatelessWidget {
           'Products Details',
         ),
       ),
-      body: BlocConsumer<HomeBloc,HomeStates>(
+      body: BlocConsumer<HomeBloc, HomeStates>(
         listener: (BuildContext context, state) {},
         builder: (BuildContext context, state) {
-          return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: constraints.maxWidth,
-                  minHeight: constraints.maxHeight,
-                ),
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 300,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: images!.length,
-                            separatorBuilder: (context, index) {
-                              return const Divider();
-                            },
-                            itemBuilder: (context, index) {
-                              return InteractiveViewer(
-                                child: CachedNetworkImage(
-                                  imageUrl: images![index],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        const SizedBox(height: 25.0,),
-                        Text('$name',style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 26.0),),
-                        const SizedBox(height: 16.0,),
-                        Row(
-                          children: [
-                            const Text('USD.',style:  TextStyle(fontWeight: FontWeight.w700,fontSize: 16.0,),),
-                            Text('$price\$',style: const TextStyle(fontWeight: FontWeight.w700,fontSize: 16.0,color: Colors.blue),),
-                            const SizedBox(width: 8.0,),
-                            if(discount != 0 )
-                              Text('$oldPrice',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  decoration: TextDecoration.lineThrough,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            const Spacer(flex: 1,),
-                            IconButton(
-                              onPressed: () {
-                                HomeBloc.get(context).add(HomeChangeFavoritesDataEvent(id:id));
+          return LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 300,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: images!.length,
+                              separatorBuilder: (context, index) {
+                                return const Divider();
                               },
-                              icon:CircleAvatar(
-                                radius: 15.0,
-                                backgroundColor: HomeBloc.get(context).favorites![id] == false ? Colors.grey: Colors.red,
-                                child:const Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                  size: 14,
+                              itemBuilder: (context, index) {
+                                return InteractiveViewer(
+                                  child: CachedNetworkImage(
+                                    imageUrl: images![index],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 25.0,
+                          ),
+                          Text(
+                            '$name',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 26.0),
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                'USD.',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.0,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16.0,),
-                        Text('$description',style: const TextStyle(fontWeight: FontWeight.w300,fontSize: 14.0),),
-
-
-
-                      ],
+                              Text(
+                                '$price\$',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16.0,
+                                    color: Colors.blue),
+                              ),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              if (discount != 0)
+                                Text(
+                                  '$oldPrice',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              const Spacer(
+                                flex: 1,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  HomeBloc.get(context).add(
+                                      HomeChangeFavoritesDataEvent(id: id));
+                                },
+                                icon: CircleAvatar(
+                                  radius: 15.0,
+                                  backgroundColor:
+                                      HomeBloc.get(context).favorites![id] ==
+                                              false
+                                          ? Colors.grey
+                                          : Colors.red,
+                                  child: const Icon(
+                                    Icons.favorite_border,
+                                    color: Colors.white,
+                                    size: 14,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          SelectableText(
+                            '$description',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w300, fontSize: 14.0),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),),
-            );
-          },);
-    },
-
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

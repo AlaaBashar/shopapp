@@ -13,6 +13,8 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  int _current = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -56,16 +58,38 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   )
                   .toList(),
               options: CarouselOptions(
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
                 autoPlay: true,
                 height: 250,
                 initialPage: 0,
                 enableInfiniteScroll: true,
                 reverse: false,
-                autoPlayInterval: const Duration(seconds: 2),
+                autoPlayInterval: const Duration(seconds: 3),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 scrollDirection: Axis.horizontal,
                 viewportFraction: 1.0,
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: homeModel.data!.banners!.asMap().entries.map((entry) {
+                return Container(
+                  width: 12.0,
+                  height: 12.0,
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 3.0),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: (CacheHelper.getData(key: 'isDark') == true
+                              ? Colors.white
+                              : Colors.black)
+                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                );
+              }).toList(),
             ),
             const SizedBox(
               height: 10.0,
@@ -116,7 +140,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
               height: 20.0,
             ),
             Container(
-
               color: Colors.grey[300],
               child: GridView.count(
                 shrinkWrap: true,
