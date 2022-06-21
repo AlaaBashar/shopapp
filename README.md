@@ -2,27 +2,27 @@ Hi GitHub community,<br />
 I made this app and I hope it would have your attention,<br />
 With simply it is just shopApp to book your products(anything in your mind) and transfer to your house address.<br />
 
-User Features:
+User Features:<br />
 
-1- Login & create new account in this app.
-2- You can Upload your profile image & cover and you can Edit it in another time.
-3- You can search on about any products.
-4- You can add & remove any product to favorites List.
+- Login & create new account in this app.<br />
+- You can Upload your profile image & cover and you can Edit it in another time.<br />
+- You can search on about any products.<br />
+- You can add & remove any product to favorites List.<br />
 
-Technical Features:
+Technical Features:<br />
 
-1-The code completely follow the roles of clean code
-2-The performance of the application has received attention so i build the app to edit the data by locally that would shift heavily in favor of the app and would increas the performance.
-3-I used a server as a database, it gave me a huge features to handle a data & how to lead it in addition how to put it in right positions.
-4-I gave this application a lot of my attention in terms of State Management in past i have used Getx & Riverpod as state management but at this point time i used to Provider & Bloc because these tools are more simple from the other.
+- The code completely follow the roles of clean code.<br />
+- The performance of the application has received attention so i build the app to edit the data by locally that would shift heavily in favor of the app and would increas the performance.<br />
+- I used a server as a database, it gave me a huge features to handle a data & how to lead it in addition how to put it in right positions.<br />
+- I gave this application a lot of my attention in terms of State Management in past i have used Getx & Riverpod as state management but at this point time i used to Provider & Bloc because these tools are more simple from the other.<br />
 
-Please do not hesitate to reach out if you would like additional information.
+Please do not hesitate to reach out if you would like additional information.<br />
 
-Any more elaboration please reach me out on :
+Any more elaboration please reach me out on :<br />
 
-- Email: alaabashar19@gmail.com.
+- Email: alaabashar19@gmail.com.<br />
 
-Sincerely, Alaa Lahlouh
+Sincerely, Alaa Lahlouh<br />
 
 
 
