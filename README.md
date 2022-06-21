@@ -23,8 +23,13 @@ Any more elaboration please reach me out on :<br />
 - Email: alaabashar19@gmail.com.<br />
 
 Sincerely, Alaa Lahlouh<br />
+<br />
 
+- Short video about the app. <br />
 
+https://user-images.githubusercontent.com/70103176/174856279-4e887bd2-d6bf-4e24-b7ce-2f78f48eb447.mp4
+
+- Short pictures about the app. <br />
 
 <img src = "https://user-images.githubusercontent.com/70103176/174755753-b62e7e3d-f35c-48ad-b28b-3e6b55c4b1a4.jpg" width = "300" height = "600"> <img src = "https://user-images.githubusercontent.com/70103176/174755757-4de26f13-ed23-4dd3-a47c-dd82cb20b920.jpg" width = "300" height = "600">
 <img src = "https://user-images.githubusercontent.com/70103176/174755761-c8fddba5-d227-4d3b-b9ce-df25db66a163.jpg" width = "300" height = "600">
